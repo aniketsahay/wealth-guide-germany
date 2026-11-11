@@ -44,6 +44,18 @@ You ──> 6 interview screens ──> 6 specialists work your case ──> 12-
 
 Six screens of multiple-choice questions: work status and household, goal and basics, income and spending, what you have, debt, risk and protection. You can type exact figures instead of picking a range, and exact figures make the plan better. It asks for your net income directly, so it does not have to guess your tax.
 
+### Optional: your statements
+
+After the interview you can attach account statements, and the plan is then built on your real numbers instead of ranges:
+
+| You attach | The plan gains |
+|---|---|
+| Bank and credit-card transactions (CSV export, 3 to 12 months) | Real income and spending by category, every recurring payment with its yearly cost, and a short list of savings in euros per year |
+| Depot overview and savings plans | A label for every position (core, keep, consolidate, replace, trim), the yearly cost, the tax a sale would trigger, and which savings plans to continue, stop or redirect |
+| Payslip, pension and loan statements, tax assessment | Exact figures for net income, pension gap, debt and allowances |
+
+The position review rests on cost, overlap, concentration and tax. It does not predict which shares will rise or fall. Details are in [`workflows/statement-review.md`](workflows/statement-review.md); invented sample files are in [`examples/sample-statements/`](examples/sample-statements/).
+
 ### Your team
 
 Think of it as a small wealth management firm working one case.
@@ -75,7 +87,7 @@ Seven reference files in [`knowledge/`](knowledge/), written for German rules:
 | `income-career.md` | Salary, tax-efficient employer benefits, equity compensation, training, side income and Kleinunternehmer rules, moving into self-employment |
 | `family-estate.md` | Couples, children and Elterngeld, powers of attorney, wills, gift and inheritance allowances, caring for parents |
 
-Plus five step-by-step guides in [`workflows/`](workflows/): first investment, getting out of debt, building wealth in stages, buying a home, and starting a side income.
+Plus six step-by-step guides in [`workflows/`](workflows/): first investment, getting out of debt, building wealth in stages, buying a home, starting a side income, and reviewing your statements.
 
 `SKILL.md` carries a condensed version of the knowledge base, so it also works as a single file.
 
@@ -108,6 +120,14 @@ python3 scripts/calc.py profile.json    # health score, net-income estimate, pro
 
 All statutory figures the calculator uses sit in one `YEAR` block at the top of the file.
 
+### Statement analyser on its own
+
+```bash
+python3 scripts/statements.py --selftest
+python3 scripts/statements.py spending examples/sample-statements/giro-sample.csv
+python3 scripts/statements.py portfolio examples/sample-statements/depot-sample.csv --allowance 2000
+```
+
 ### HTML export on its own
 
 ```bash
@@ -120,13 +140,14 @@ Writes `plan.html` beside the markdown file. Amounts can be in English (`€12,3
 
 ## Privacy
 
-Nothing is stored between runs: there is no database. The plan ends with a "Your profile" block you can paste back in next time. The skill is instructed never to put your personal figures into a web search. Your answers are processed by Claude like any other conversation.
+Nothing is stored between runs: there is no database. The plan ends with a "Your profile" block you can paste back in next time. The skill is instructed never to put your personal figures into a web search. Your answers are processed by Claude like any other conversation. Statements you attach are handled the same way: analysed in the session, never used in a web search, and the plan carries no account numbers. Share only what you are comfortable sharing, and black out what is not needed.
 
 ## Limits
 
 - Germany only. Cross-border income, expat tax questions and other countries are out of scope.
 - Figures are a snapshot. Laws marked as pending (for example the crypto holding-period reform and the 2027 social insurance ceilings) may have changed.
 - Fund names are examples of a category, not recommendations.
+- The review of your holdings looks at cost, overlap, concentration and tax. It does not forecast any share, and it only knows the accounts you showed it.
 - If you give ranges instead of exact figures, the plan works from midpoints and marks them as estimates.
 - Running six specialists as subagents uses noticeably more of your usage allowance than a single pass.
 
