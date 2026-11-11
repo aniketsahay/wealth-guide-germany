@@ -63,6 +63,22 @@ Score: {SCORE}/100  [{SCORE_BAR}]
 
 **Gaps:** {GAPS}
 
+### 2.4 Where the money goes
+
+*Only when statements were provided (period: {STATEMENT_PERIOD}; accounts covered: {ACCOUNTS_COVERED}). Otherwise delete this subsection.*
+
+| Category | Monthly average | Per year | Share of spending |
+|----------|-----------------|----------|-------------------|
+{SPENDING_ROWS}
+
+| Recurring payment | Category | Amount | Per year | Keep, check or cancel |
+|-------------------|----------|--------|----------|-----------------------|
+{RECURRING_ROWS}
+
+| Saving found | Per year | Worth after 20 years if invested | How |
+|--------------|----------|----------------------------------|-----|
+{SAVINGS_ROWS}
+
 ---
 
 ## 3. Projections: three scenarios
@@ -88,6 +104,16 @@ Invested assets in today's euros, starting from {INVESTED} with {ANNUAL_CONTRIBU
 {STRATEGY_MATRIX_ROWS}
 
 {STRATEGY_SECTIONS}
+
+### Your holdings, one by one
+
+*Only when a Depot statement was provided. Otherwise delete this subsection. The labels rest on cost, overlap, concentration and tax; they are not a view on any company's prospects.*
+
+| Position | Value today | Share | Gain | Cost a year | Label | Tax if sold today | Savings plan |
+|----------|-------------|-------|------|-------------|-------|-------------------|--------------|
+{HOLDING_ROWS}
+
+{HOLDING_STEPS}
 
 ---
 

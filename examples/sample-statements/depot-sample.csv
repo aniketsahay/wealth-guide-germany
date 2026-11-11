@@ -1,0 +1,8 @@
+name,isin,type,quantity,cost_basis,value,ter,monthly_plan,bought
+Vanguard FTSE All-World UCITS ETF (Acc),IE00BK5BQT80,etf_equity,95,9800,12350,0.19,200,2023-03-01
+iShares Core MSCI World UCITS ETF,IE00B4L5Y983,etf_equity,60,5100,6480,0.20,100,2022-06-01
+iShares Core S&P 500 UCITS ETF,IE00B5BMR087,etf_equity,8,3600,4720,0.07,100,2024-01-15
+UniGlobal,DE0008491051,fund_active,22,7900,9240,1.45,100,2020-09-01
+Beispiel Software AG (employer shares),DE000EXAMPLE,stock,150,6000,9750,0,0,2022-01-10
+Tesla Inc,US88160R1014,stock,12,4200,3050,0,50,2024-11-05
+Bitcoin,,crypto,0.04,1500,3300,,25,2024-02-01
