@@ -155,8 +155,6 @@ Nothing is stored between runs: there is no database. The plan ends with a "Your
 
 Everything time-sensitive is marked ⟳ in `SKILL.md`. At the start of each year, update at least: the § 32a tariff formula and Grundfreibetrag, the Soli threshold, social insurance ceilings and rates, the Basiszins, Rürup and bAV limits, Kindergeld, the tariff table in `knowledge/tax.md`, the `YEAR` block in `scripts/calc.py`, and the "checked" dates. Pull requests with a source link are welcome.
 
-## Credits and licence
-
-The idea, the six-specialist method and the HTML export script come from [caseonix/wealth-guide](https://github.com/caseonix/wealth-guide) by Srivatsa Kasagar (MIT), which covers the US, Canada and India. The knowledge base, workflows, interview and template here are written for German rules; `scripts/md_to_html.py` is adapted from the original.
+## Licence
 
 MIT licence, see `LICENSE`.
