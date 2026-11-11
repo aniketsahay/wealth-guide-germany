@@ -157,4 +157,6 @@ Everything time-sensitive is marked ⟳ in `SKILL.md`. At the start of each year
 
 ## Licence
 
+Inspired by wealth-guide from Srivatsa Kasagar.
+
 MIT licence, see `LICENSE`.
