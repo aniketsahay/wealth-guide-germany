@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wealth Plan (abridged example)</title>
+<style>
+:root {
+    --navy: #1a2332;
+    --text: #2c3e50;
+    --bg: #ffffff;
+    --table-header-bg: #f8f9fa;
+    --table-stripe: #f8f9fa;
+    --blockquote-border: #3498db;
+    --link: #2980b9;
+    --code-bg: #f4f5f7;
+    --green-bg: #d4edda; --green-text: #155724;
+    --amber-bg: #fff3cd; --amber-text: #856404;
+    --red-bg: #f8d7da; --red-text: #721c24;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    color: var(--navy);
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+h1 { font-size: 2em; border-bottom: 3px solid var(--navy); padding-bottom: 0.3em; }
+h2 { font-size: 1.5em; border-bottom: 1px solid #e0e0e0; padding-bottom: 0.2em; }
+h3 { font-size: 1.2em; }
+
+p { margin: 0.8em 0; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 0.9em;
+}
+thead th {
+    background: var(--table-header-bg);
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    border-bottom: 2px solid #dee2e6;
+    text-align: left;
+}
+tbody td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid #e9ecef;
+}
+tbody tr:nth-child(even) { background: var(--table-stripe); }
+tbody tr:hover { background: #e8f4f8; }
+
+blockquote {
+    border-left: 4px solid var(--blockquote-border);
+    background: var(--table-stripe);
+    padding: 1em 1.5em;
+    margin: 1em 0;
+    font-style: italic;
+    border-radius: 0 4px 4px 0;
+}
+
+ul {
+    margin: 0.8em 0;
+    padding-left: 1.5em;
+}
+li { margin: 0.3em 0; }
+
+pre {
+    background: var(--code-bg);
+    padding: 1em;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1em 0;
+    font-size: 0.85em;
+}
+code {
+    font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+    font-size: 0.9em;
+}
+p code, li code, td code {
+    background: var(--code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 2em 0;
+}
+
+.verdict {
+    display: inline-block;
+    padding: 0.15em 0.6em;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.85em;
+    letter-spacing: 0.02em;
+}
+.verdict-recommended { background: var(--green-bg); color: var(--green-text); }
+.verdict-caution { background: var(--amber-bg); color: var(--amber-text); }
+.verdict-not-suitable { background: var(--red-bg); color: var(--red-text); }
+
+.chart-container {
+    text-align: center;
+    margin: 1.5em 0;
+    padding: 1em;
+    background: #fafbfc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.chart-container svg { max-width: 100%; height: auto; }
+.chart-container--gauge svg { max-width: 380px; }
+
+@media print {
+    body { max-width: none; padding: 0; color: #000; }
+    h2 { page-break-before: always; }
+    h2:first-of-type { page-break-before: avoid; }
+    table, .chart-container, pre, blockquote { page-break-inside: avoid; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #666; }
+    .chart-container { box-shadow: none; background: none; }
+    @page { margin: 1.5cm; }
+}
+</style>
+</head>
+<body>
+<h1 id="wealth-plan-abridged-example">Wealth Plan (abridged example)</h1>
+<blockquote><strong>Prepared:</strong> 11 November 2026 | <strong>Germany</strong> | <strong>Level:</strong> Beginner | <strong>Risk tolerance:</strong> Balanced-to-growth | <strong>Goal:</strong> Build wealth long term</blockquote>
+<blockquote><strong>This is an invented example</strong> showing the layout of a plan and the charts in the HTML export. The person and all figures are fictional. A real plan has all twelve sections filled in. Not Anlageberatung, Steuerberatung or Rechtsberatung.</blockquote>
+<hr>
+<h2 id="1-summary">1. Summary</h2>
+<p>A 34-year-old employee with €62,000 gross, a positive surplus of €950 a month and no consumer debt beyond a small car loan. The foundations are sound; the gaps are missing disability cover and no retirement saving beyond the statutory pension. Investing 85% of the surplus in a global equity ETF with a 20% safe share leads to roughly €299,532 of invested assets in today's money by age 54 in the base case.</p>
+<table>
+<thead><tr>
+<th>Metric</th>
+<th style="text-align:right">Today</th>
+<th style="text-align:right">Projected (2046)</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Age</td>
+<td style="text-align:right">34</td>
+<td style="text-align:right">54</td>
+</tr>
+<tr>
+<td>Net worth</td>
+<td style="text-align:right">€23,000</td>
+<td style="text-align:right">€308,532</td>
+</tr>
+<tr>
+<td>Invested assets</td>
+<td style="text-align:right">€18,000</td>
+<td style="text-align:right">€299,532</td>
+</tr>
+<tr>
+<td>Annual savings</td>
+<td style="text-align:right">€9,690</td>
+<td style="text-align:right">—</td>
+</tr>
+<tr>
+<td>Sustainable annual income (3.5%)</td>
+<td style="text-align:right">—</td>
+<td style="text-align:right">€10,484</td>
+</tr>
+</tbody></table>
+<p><strong>Three things to do first:</strong> apply for BU cover; raise the monthly ETF Sparplan to €650; open an Altersvorsorgedepot once products are on sale in 2027.</p>
+<hr>
+<h2 id="2-where-you-stand">2. Where you stand</h2>
+<h3 id="21-net-worth">2.1 Net worth</h3>
+<table>
+<thead><tr>
+<th>Category</th>
+<th style="text-align:right">Value (EUR)</th>
+<th style="text-align:right">Notes</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Cash and savings</td>
+<td style="text-align:right">€9,000</td>
+<td style="text-align:right">Tagesgeld and current account</td>
+</tr>
+<tr>
+<td>Investments</td>
+<td style="text-align:right">€18,000</td>
+<td style="text-align:right">One world ETF</td>
+</tr>
+<tr>
+<td>Pension products (current value)</td>
+<td style="text-align:right">€0</td>
+<td style="text-align:right">None yet</td>
+</tr>
+<tr>
+<td>Less: loans</td>
+<td style="text-align:right">€4,000</td>
+<td style="text-align:right">Car loan at 5.9%</td>
+</tr>
+<tr>
+<td><strong>Net worth</strong></td>
+<td style="text-align:right"><strong>€23,000</strong></td>
+<td style="text-align:right"></td>
+</tr>
+</tbody></table>
+<div class="chart-container">
+<svg viewBox="0 0 560 400" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 280.0 50.0 A 130 130 0 0 1 392.6 245.0 L 349.3 220.0 A 80 80 0 0 0 280.0 100.0 Z" fill="#3498db"/>
+<path d="M 392.6 245.0 A 130 130 0 1 1 280.0 50.0 L 280.0 100.0 A 80 80 0 1 0 349.3 220.0 Z" fill="#2ecc71"/>
+
+  <text x="408.2" y="106.0" text-anchor="start" font-size="11" fill="#666">Cash and savings (€9k)</text>
+<text x="151.8" y="254.0" text-anchor="end" font-size="11" fill="#666">Investments (€18k)</text>
+
+  
+    <text x="280" y="175" text-anchor="middle" font-size="13" fill="#999">Net Worth</text>
+    <text x="280" y="198" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a2332">€23k</text>
+    
+  <rect x="230" y="350" width="220.0" height="18" rx="3" fill="#e74c3c" opacity="0.8"/>
+<text x="225" y="363" text-anchor="end" font-size="11" fill="#666">Loans</text>
+<text x="455.0" y="363" font-size="11" fill="#666">€4k</text>
+
+</svg>
+</div>
+<h3 id="22-cash-flow">2.2 Cash flow</h3>
+<table>
+<thead><tr>
+<th>Item</th>
+<th style="text-align:right">Monthly</th>
+<th style="text-align:right">Annual</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Gross income</td>
+<td style="text-align:right">€5,167</td>
+<td style="text-align:right">€62,000</td>
+</tr>
+<tr>
+<td>Taxes and social contributions</td>
+<td style="text-align:right">€1,917</td>
+<td style="text-align:right">€23,000</td>
+</tr>
+<tr>
+<td>Living expenses</td>
+<td style="text-align:right">€2,300</td>
+<td style="text-align:right">€27,600</td>
+</tr>
+<tr>
+<td><strong>Available surplus</strong></td>
+<td style="text-align:right"><strong>€950</strong></td>
+<td style="text-align:right"><strong>€11,400</strong></td>
+</tr>
+</tbody></table>
+<div class="chart-container">
+<svg viewBox="0 0 650 340" xmlns="http://www.w3.org/2000/svg">
+  <line x1="217.0" y1="30.0" x2="269.0" y2="30.0" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="334.0" y1="119.0" x2="386.0" y2="119.0" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="451.0" y1="225.9" x2="503.0" y2="225.9" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <rect x="152.0" y="30.0" width="65" height="240.0" rx="3" fill="#27ae60" opacity="0.85"/>
+<text x="184.5" y="22.0" text-anchor="middle" font-size="12" font-weight="bold" fill="#27ae60">€5.2k</text>
+<rect x="269.0" y="30.0" width="65" height="89.0" rx="3" fill="#e74c3c" opacity="0.85"/>
+<text x="301.5" y="134.0" text-anchor="middle" font-size="12" font-weight="bold" fill="#e74c3c">€1.9k</text>
+<rect x="386.0" y="119.0" width="65" height="106.8" rx="3" fill="#e74c3c" opacity="0.85"/>
+<text x="418.5" y="240.9" text-anchor="middle" font-size="12" font-weight="bold" fill="#e74c3c">€2.3k</text>
+<rect x="503.0" y="225.9" width="65" height="44.1" rx="3" fill="#27ae60" opacity="0.85"/>
+<text x="535.5" y="217.9" text-anchor="middle" font-size="12" font-weight="bold" fill="#27ae60">€950</text>
+
+  <text x="184.5" y="315" text-anchor="middle" font-size="10" fill="#666">Gross income</text>
+<text x="301.5" y="315" text-anchor="middle" font-size="10" fill="#666">Taxes and social c...</text>
+<text x="418.5" y="315" text-anchor="middle" font-size="10" fill="#666">Living expenses</text>
+<text x="535.5" y="315" text-anchor="middle" font-size="10" fill="#666">Available surplus</text>
+
+</svg>
+</div>
+<h3 id="23-financial-health-score">2.3 Financial health score</h3>
+<div class="chart-container chart-container--gauge">
+<svg viewBox="0 0 286 193" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 43 143 A 100 100 0 1 1 243 143" fill="none" stroke="#e9ecef" stroke-width="18" stroke-linecap="round"/>
+  <path d="M 43 143 A 100 100 0 0 1 196.6 58.6" fill="none" stroke="#f39c12" stroke-width="18" stroke-linecap="round"/>
+  <line x1="143" y1="143" x2="188.5" y2="71.2" stroke="#f39c12" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="143" cy="143" r="6" fill="#f39c12"/>
+  <text x="143" y="178" text-anchor="middle" font-size="28" font-weight="bold" fill="#f39c12">68/100</text>
+  <text x="22.0" y="143.0" text-anchor="middle" font-size="11" fill="#999">0</text>
+<text x="57.4" y="57.4" text-anchor="middle" font-size="11" fill="#999">25</text>
+<text x="143.0" y="22.0" text-anchor="middle" font-size="11" fill="#999">50</text>
+<text x="228.6" y="57.4" text-anchor="middle" font-size="11" fill="#999">75</text>
+<text x="264.0" y="143.0" text-anchor="middle" font-size="11" fill="#999">100</text>
+
+</svg>
+</div>
+<table>
+<thead><tr>
+<th>Area</th>
+<th style="text-align:right">Your value</th>
+<th style="text-align:right">Benchmark</th>
+<th style="text-align:right">Points</th>
+<th style="text-align:right">Status</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Emergency fund</td>
+<td style="text-align:right">3.9 months</td>
+<td style="text-align:right">3–6 months</td>
+<td style="text-align:right">20/25</td>
+<td style="text-align:right">GOOD</td>
+</tr>
+<tr>
+<td>Savings rate</td>
+<td style="text-align:right">29%</td>
+<td style="text-align:right">20% of net</td>
+<td style="text-align:right">25/25</td>
+<td style="text-align:right">EXCELLENT</td>
+</tr>
+<tr>
+<td>Consumer debt</td>
+<td style="text-align:right">Car loan only</td>
+<td style="text-align:right">None</td>
+<td style="text-align:right">16/20</td>
+<td style="text-align:right">GOOD</td>
+</tr>
+<tr>
+<td>Retirement track</td>
+<td style="text-align:right">0.3× gross income</td>
+<td style="text-align:right">1× by 35</td>
+<td style="text-align:right">4/15</td>
+<td style="text-align:right">NEEDS WORK</td>
+</tr>
+<tr>
+<td>Protection</td>
+<td style="text-align:right">Haftpflicht only</td>
+<td style="text-align:right">Haftpflicht and BU</td>
+<td style="text-align:right">3/15</td>
+<td style="text-align:right">CRITICAL</td>
+</tr>
+</tbody></table>
+<p><strong>Strengths:</strong> high savings rate, no overdraft or card debt, already investing.</p>
+<p><strong>Gaps:</strong> no disability cover; retirement saving behind the benchmark for this age.</p>
+<hr>
+<h2 id="3-projections-three-scenarios">3. Projections: three scenarios</h2>
+<p>Invested assets in today's euros, starting from €18,000 with €9,690 a year added. Real returns after inflation for an 80% equity portfolio: conservative 1.6%, base case 3.2%, optimistic 4.8%.</p>
+<table>
+<thead><tr>
+<th>Year</th>
+<th style="text-align:right">Age</th>
+<th style="text-align:right">Conservative</th>
+<th style="text-align:right">Base case</th>
+<th style="text-align:right">Optimistic</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>2026</td>
+<td style="text-align:right">34</td>
+<td style="text-align:right">€18,000</td>
+<td style="text-align:right">€18,000</td>
+<td style="text-align:right">€18,000</td>
+</tr>
+<tr>
+<td>2028</td>
+<td style="text-align:right">36</td>
+<td style="text-align:right">€38,116</td>
+<td style="text-align:right">€38,861</td>
+<td style="text-align:right">€39,615</td>
+</tr>
+<tr>
+<td>2030</td>
+<td style="text-align:right">38</td>
+<td style="text-align:right">€58,880</td>
+<td style="text-align:right">€61,077</td>
+<td style="text-align:right">€63,354</td>
+</tr>
+<tr>
+<td>2032</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">€80,314</td>
+<td style="text-align:right">€84,739</td>
+<td style="text-align:right">€89,427</td>
+</tr>
+<tr>
+<td>2034</td>
+<td style="text-align:right">42</td>
+<td style="text-align:right">€102,440</td>
+<td style="text-align:right">€109,939</td>
+<td style="text-align:right">€118,063</td>
+</tr>
+<tr>
+<td>2036</td>
+<td style="text-align:right">44</td>
+<td style="text-align:right">€125,279</td>
+<td style="text-align:right">€136,778</td>
+<td style="text-align:right">€149,514</td>
+</tr>
+<tr>
+<td>2038</td>
+<td style="text-align:right">46</td>
+<td style="text-align:right">€148,855</td>
+<td style="text-align:right">€165,362</td>
+<td style="text-align:right">€184,057</td>
+</tr>
+<tr>
+<td>2040</td>
+<td style="text-align:right">48</td>
+<td style="text-align:right">€173,192</td>
+<td style="text-align:right">€195,804</td>
+<td style="text-align:right">€221,996</td>
+</tr>
+<tr>
+<td>2042</td>
+<td style="text-align:right">50</td>
+<td style="text-align:right">€198,314</td>
+<td style="text-align:right">€228,227</td>
+<td style="text-align:right">€263,664</td>
+</tr>
+<tr>
+<td>2044</td>
+<td style="text-align:right">52</td>
+<td style="text-align:right">€224,245</td>
+<td style="text-align:right">€262,757</td>
+<td style="text-align:right">€309,429</td>
+</tr>
+<tr>
+<td>2046</td>
+<td style="text-align:right">54</td>
+<td style="text-align:right">€251,014</td>
+<td style="text-align:right">€299,532</td>
+<td style="text-align:right">€359,692</td>
+</tr>
+</tbody></table>
+<div class="chart-container">
+<svg viewBox="0 0 780 400" xmlns="http://www.w3.org/2000/svg">
+  <line x1="80" y1="330.0" x2="750" y2="330.0" stroke="#e9ecef" stroke-width="1"/>
+<text x="70" y="330.0" text-anchor="end" font-size="11" fill="#999" dominant-baseline="middle">€16k</text>
+<line x1="80" y1="270.0" x2="750" y2="270.0" stroke="#e9ecef" stroke-width="1"/>
+<text x="70" y="270.0" text-anchor="end" font-size="11" fill="#999" dominant-baseline="middle">€88k</text>
+<line x1="80" y1="210.0" x2="750" y2="210.0" stroke="#e9ecef" stroke-width="1"/>
+<text x="70" y="210.0" text-anchor="end" font-size="11" fill="#999" dominant-baseline="middle">€161k</text>
+<line x1="80" y1="150.0" x2="750" y2="150.0" stroke="#e9ecef" stroke-width="1"/>
+<text x="70" y="150.0" text-anchor="end" font-size="11" fill="#999" dominant-baseline="middle">€233k</text>
+<line x1="80" y1="90.0" x2="750" y2="90.0" stroke="#e9ecef" stroke-width="1"/>
+<text x="70" y="90.0" text-anchor="end" font-size="11" fill="#999" dominant-baseline="middle">€305k</text>
+<line x1="80" y1="30.0" x2="750" y2="30.0" stroke="#e9ecef" stroke-width="1"/>
+<text x="70" y="30.0" text-anchor="end" font-size="11" fill="#999" dominant-baseline="middle">€378k</text>
+
+  <text x="80.0" y="355" text-anchor="middle" font-size="11" fill="#999">2026</text>
+<text x="147.0" y="355" text-anchor="middle" font-size="11" fill="#999">2028</text>
+<text x="214.0" y="355" text-anchor="middle" font-size="11" fill="#999">2030</text>
+<text x="281.0" y="355" text-anchor="middle" font-size="11" fill="#999">2032</text>
+<text x="348.0" y="355" text-anchor="middle" font-size="11" fill="#999">2034</text>
+<text x="415.0" y="355" text-anchor="middle" font-size="11" fill="#999">2036</text>
+<text x="482.0" y="355" text-anchor="middle" font-size="11" fill="#999">2038</text>
+<text x="549.0" y="355" text-anchor="middle" font-size="11" fill="#999">2040</text>
+<text x="616.0" y="355" text-anchor="middle" font-size="11" fill="#999">2042</text>
+<text x="683.0" y="355" text-anchor="middle" font-size="11" fill="#999">2044</text>
+<text x="750.0" y="355" text-anchor="middle" font-size="11" fill="#999">2046</text>
+
+  <polyline points="80.0,328.5 147.0,311.8 214.0,294.6 281.0,276.8 348.0,258.4 415.0,239.5 482.0,219.9 549.0,199.7 616.0,178.9 683.0,157.3 750.0,135.1" fill="none" stroke="#e74c3c" stroke-width="2.5"/>
+  <polyline points="80.0,328.5 147.0,311.2 214.0,292.8 281.0,273.1 348.0,252.2 415.0,229.9 482.0,206.2 549.0,180.9 616.0,154.0 683.0,125.4 750.0,94.9" fill="none" stroke="#3498db" stroke-width="2.5"/>
+  <polyline points="80.0,328.5 147.0,310.6 214.0,290.9 281.0,269.2 348.0,245.5 415.0,219.4 482.0,190.7 549.0,159.2 616.0,124.6 683.0,86.6 750.0,44.9" fill="none" stroke="#27ae60" stroke-width="2.5"/>
+  <circle cx="80.0" cy="328.5" r="3" fill="#e74c3c"/>
+<circle cx="147.0" cy="311.8" r="3" fill="#e74c3c"/>
+<circle cx="214.0" cy="294.6" r="3" fill="#e74c3c"/>
+<circle cx="281.0" cy="276.8" r="3" fill="#e74c3c"/>
+<circle cx="348.0" cy="258.4" r="3" fill="#e74c3c"/>
+<circle cx="415.0" cy="239.5" r="3" fill="#e74c3c"/>
+<circle cx="482.0" cy="219.9" r="3" fill="#e74c3c"/>
+<circle cx="549.0" cy="199.7" r="3" fill="#e74c3c"/>
+<circle cx="616.0" cy="178.9" r="3" fill="#e74c3c"/>
+<circle cx="683.0" cy="157.3" r="3" fill="#e74c3c"/>
+<circle cx="750.0" cy="135.1" r="3" fill="#e74c3c"/>
+<circle cx="80.0" cy="328.5" r="3" fill="#3498db"/>
+<circle cx="147.0" cy="311.2" r="3" fill="#3498db"/>
+<circle cx="214.0" cy="292.8" r="3" fill="#3498db"/>
+<circle cx="281.0" cy="273.1" r="3" fill="#3498db"/>
+<circle cx="348.0" cy="252.2" r="3" fill="#3498db"/>
+<circle cx="415.0" cy="229.9" r="3" fill="#3498db"/>
+<circle cx="482.0" cy="206.2" r="3" fill="#3498db"/>
+<circle cx="549.0" cy="180.9" r="3" fill="#3498db"/>
+<circle cx="616.0" cy="154.0" r="3" fill="#3498db"/>
+<circle cx="683.0" cy="125.4" r="3" fill="#3498db"/>
+<circle cx="750.0" cy="94.9" r="3" fill="#3498db"/>
+<circle cx="80.0" cy="328.5" r="3" fill="#27ae60"/>
+<circle cx="147.0" cy="310.6" r="3" fill="#27ae60"/>
+<circle cx="214.0" cy="290.9" r="3" fill="#27ae60"/>
+<circle cx="281.0" cy="269.2" r="3" fill="#27ae60"/>
+<circle cx="348.0" cy="245.5" r="3" fill="#27ae60"/>
+<circle cx="415.0" cy="219.4" r="3" fill="#27ae60"/>
+<circle cx="482.0" cy="190.7" r="3" fill="#27ae60"/>
+<circle cx="549.0" cy="159.2" r="3" fill="#27ae60"/>
+<circle cx="616.0" cy="124.6" r="3" fill="#27ae60"/>
+<circle cx="683.0" cy="86.6" r="3" fill="#27ae60"/>
+<circle cx="750.0" cy="44.9" r="3" fill="#27ae60"/>
+
+  
+    <rect x="80" y="384" width="12" height="3" fill="#e74c3c"/>
+    <text x="96" y="387" font-size="11" fill="#666">Conservative</text>
+    <rect x="200" y="384" width="12" height="3" fill="#3498db"/>
+    <text x="216" y="387" font-size="11" fill="#666">Base Case</text>
+    <rect x="320" y="384" width="12" height="3" fill="#27ae60"/>
+    <text x="336" y="387" font-size="11" fill="#666">Optimistic</text>
+    
+</svg>
+</div>
+<table>
+<thead><tr>
+<th>Scenario</th>
+<th style="text-align:right">Real return</th>
+<th style="text-align:right">Assets at target</th>
+<th style="text-align:right">Annual income at 3.5%</th>
+<th style="text-align:right">Versus base</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Conservative</td>
+<td style="text-align:right">1.6%</td>
+<td style="text-align:right">€251,014</td>
+<td style="text-align:right">€8,785</td>
+<td style="text-align:right">€-48,519</td>
+</tr>
+<tr>
+<td>Base case</td>
+<td style="text-align:right">3.2%</td>
+<td style="text-align:right">€299,532</td>
+<td style="text-align:right">€10,484</td>
+<td style="text-align:right">—</td>
+</tr>
+<tr>
+<td>Optimistic</td>
+<td style="text-align:right">4.8%</td>
+<td style="text-align:right">€359,692</td>
+<td style="text-align:right">€12,589</td>
+<td style="text-align:right">+€60,160</td>
+</tr>
+</tbody></table>
+<p>*Illustrations, not forecasts. Tax on gains is due when investments are sold and is not deducted here.*</p>
+<hr>
+<h2 id="4-strategy-blueprint">4. Strategy blueprint</h2>
+<table>
+<thead><tr>
+<th>#</th>
+<th style="text-align:right">Strategy</th>
+<th style="text-align:right">Area</th>
+<th style="text-align:right">Monthly amount</th>
+<th style="text-align:right">Risk</th>
+<th style="text-align:right">Horizon</th>
+<th style="text-align:right">Verdict</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>1</td>
+<td style="text-align:right">Close the protection gap (BU)</td>
+<td style="text-align:right">Protection</td>
+<td style="text-align:right">about €60–90</td>
+<td style="text-align:right">Low</td>
+<td style="text-align:right">Now</td>
+<td style="text-align:right"><span class="verdict verdict-recommended">RECOMMENDED</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td style="text-align:right">Global ETF Sparplan, 80/20</td>
+<td style="text-align:right">Investing</td>
+<td style="text-align:right">€650</td>
+<td style="text-align:right">Medium</td>
+<td style="text-align:right">15+ years</td>
+<td style="text-align:right"><span class="verdict verdict-recommended">RECOMMENDED</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td style="text-align:right">Altersvorsorgedepot to the subsidy cap from 2027</td>
+<td style="text-align:right">Pension and subsidy</td>
+<td style="text-align:right">€150</td>
+<td style="text-align:right">Medium</td>
+<td style="text-align:right">To age 65</td>
+<td style="text-align:right"><span class="verdict verdict-recommended">RECOMMENDED</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td style="text-align:right">Clear the car loan early</td>
+<td style="text-align:right">Debt</td>
+<td style="text-align:right">€150 extra</td>
+<td style="text-align:right">Low</td>
+<td style="text-align:right">18 months</td>
+<td style="text-align:right"><span class="verdict verdict-caution">PROCEED WITH CAUTION</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td style="text-align:right">Buy a flat to rent out</td>
+<td style="text-align:right">Property</td>
+<td style="text-align:right">—</td>
+<td style="text-align:right">High</td>
+<td style="text-align:right">10+ years</td>
+<td style="text-align:right"><span class="verdict verdict-not-suitable">NOT SUITABLE FOR THIS PROFILE</span></td>
+</tr>
+</tbody></table>
+<p>Sections 5 to 12 (debt, tax and subsidies, monthly money flow, risks, action plan, market context, learning path, key dates) follow in a full plan.</p>
+</body>
+</html>

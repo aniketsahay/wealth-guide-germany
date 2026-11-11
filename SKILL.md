@@ -1,11 +1,11 @@
 ---
 name: wealth-guide-germany
-description: Use when the user says "wealth guide", "Vermögensplan" or "Finanzplan", or asks for a personal financial plan, investing, pension, debt or tax strategy as a German tax resident. Runs a short interview and produces a 12-section plan in EUR under German rules.
+description: Use when the user says "wealth guide", "Vermögensplan" or "Finanzplan", or asks for a personal financial plan, investing, pension, debt or tax strategy as a German tax resident. Runs a short interview, puts six specialists on the case and produces a 12-section plan in EUR under German rules.
 ---
 
 # Wealth Guide Germany
 
-Build a personal wealth plan for someone who is tax resident in Germany: a short interview, a check of current figures, calculations done in code, then a 12-section plan they can keep.
+Build a personal wealth plan for someone who is tax resident in Germany: a short interview, six specialists working the case in two phases, calculations done in code, then a 12-section plan they can keep.
 
 Concept adapted from the MIT-licensed `caseonix/wealth-guide` skill (US/Canada/India). This version is rewritten for German rules and for use in the Claude app.
 
@@ -19,7 +19,30 @@ Concept adapted from the MIT-licensed `caseonix/wealth-guide` skill (US/Canada/I
 - **Privacy.** Never put the user's personal figures into a web search.
 - **No stock picking, no market timing.** Name funds only as examples of a category, with ISIN, and tell the user to check the current TER.
 - **Leverage** (investing on credit, Lombard loans, borrowing against a home to invest) is always labelled HIGH RISK and never suggested to anyone who is not both experienced and risk-tolerant.
-- Work through the steps yourself in sequence. Only split the work across subagents if the user asks for that.
+- **Six specialists.** The work is done by the team described below. Asking for this skill is asking for that team, so use subagents for it wherever a subagent tool exists.
+
+## The team
+
+Think of it as a small wealth management firm working one case. Six specialists, two phases.
+
+| Specialist | Step | What they deliver |
+|---|---|---|
+| **The Diagnostician** | 3 | The financial health check: net income, surplus, savings rate, emergency fund, debt service, pension gap and the 0–100 score, with strengths and gaps. |
+| **The Research Analyst** | 2b | Reads the whole knowledge base and pulls out what applies to this profile: experience level, a shortlist of playbooks, every subsidy and allowance the person qualifies for, matching workflows, a learning path, and any recent rule change that affects them. |
+| **The Market Analyst** | 2 | Today's numbers: tax and social insurance values for the current year, savings and mortgage rates, inflation, equity and property market context, and the status of pending laws. |
+| **The Strategist** | 4 | Three to five distinct strategies built on the first three reports, each with product type, example fund and ISIN, monthly euro amount and where to hold it. |
+| **The Risk Officer** | 5 | Tries to break the plan: stress test, sensitivity, concentration, lock-in. Scores each strategy and stamps a verdict. |
+| **The Planner** | 6 | Puts everything into the 12-section plan with amounts, deadlines and a prioritised action list, plus the print-ready HTML version with charts. |
+
+**How to run it**
+- **Phase 1, in parallel:** Diagnostician, Research Analyst and Market Analyst. Where a subagent tool exists, launch all three in a single turn so they run at the same time.
+- **Phase 2, in order:** Strategist, then Risk Officer, then Planner. Each receives everything produced before it. Run the Risk Officer as its own agent so the strategies are not reviewed by their author.
+- **Brief each subagent fully.** It starts with no context. Give it: the complete profile from Step 1, the text of its step from this file, the ground rules, the parts of the core reference it needs (or the paths of the knowledge files), and the exact output wanted. Ask for a compact structured report, not prose.
+- **No subagent tool:** do the six passes yourself in the same order, and write each specialist's findings as a short labelled note before starting the next, so later steps build on written results.
+- If one specialist fails or returns nothing usable, do that pass yourself and carry on. Say so in the plan if a section is thinner as a result.
+- Keep the user posted with one short line per phase, naming who is working.
+
+**Files that may sit beside this one.** The GitHub version of this skill ships a folder with `knowledge/` (seven deeper reference files), `workflows/` (step-by-step guides), `templates/plan-template.md`, `scripts/calc.py` and `scripts/md_to_html.py`. If they are there, use them as described in the steps. If this file is installed on its own, the core reference at the end is enough.
 
 ## Step 1: Interview
 
@@ -68,7 +91,9 @@ If the user already gave some of this earlier in the conversation, or pastes a p
 
 **Range midpoints** when no exact figure is given: use the middle of the range. For open-ended ranges use: gross under 40k → 30,000, over 110k → 140,000; net under 2,500 → 2,000, over 6,000 → 7,500; spending under 1,500 → 1,200, over 4,000 → 5,000; cash under 5k → 2,500, over 75k → 100,000; investments under 25k → 12,500, over 150k → 250,000. Mark every figure that came from a midpoint as "estimate" in the plan.
 
-## Step 2: Refresh the figures
+## Step 2: Market Analyst – today's numbers
+
+*Phase 1, in parallel with Steps 2b and 3.*
 
 Run web searches for the ⟳ items the plan will actually use. Always check:
 
@@ -81,9 +106,29 @@ Run web searches for the ⟳ items the plan will actually use. Always check:
 - Whenever the plan relies on them: ALG I rates and duration, property depreciation rates, Riester subsidies, and gift and inheritance allowances
 - Current TER of any ETF named
 
-Also get a short market context (equity valuations, rates, inflation, property prices). Describe it, do not predict from it.
+Also get a short market context (equity valuations, rates, inflation, property prices, gold). Describe it, do not predict from it.
 
-## Step 3: Diagnose (in code)
+**Report:** a table of figure, value, date and source link; a three-sentence market summary; any figure in the core reference that turned out to be outdated, with the corrected value.
+
+## Step 2b: Research Analyst – what applies to this person
+
+*Phase 1, in parallel with Steps 2 and 3.*
+
+1. Read the core reference at the end of this file. If `knowledge/` exists, read all seven files (`tax`, `investing`, `retirement`, `property`, `money-basics`, `income-career`, `family-estate`).
+2. **Level:** beginner if there are no investments or the user said beginner; advanced if they manage a diversified portfolio and invested assets exceed about one year's gross income; otherwise intermediate.
+3. **Shortlist five to eight playbooks** that fit the profile, goal, level and risk tolerance. For each: name, one-line principle, why it fits this person, the source section, and what would rule it out.
+4. **Entitlements:** list every subsidy, allowance and employer benefit this person appears to qualify for, with the rule and the rough euro value per year (the Planner turns this into Section 6).
+5. **Workflows:** pick one or two from `workflows/` (`first-investment`, `debt-freedom`, `wealth-building`, `home-purchase`, `side-income`) and note which steps the person has already done. Without the folder, outline the steps yourself.
+6. **Learning path:** three phases matched to the level, with free German-language sources first (Finanztip, Verbraucherzentrale, Stiftung Warentest, Deutsche Rentenversicherung), then one or two books.
+7. **News scan:** search for rule changes from the last few months that touch this profile (pension products, tax allowances, subsidies, property programmes). Do not include personal figures in searches.
+
+**Report:** level with reason, shortlist, entitlements table, chosen workflows, learning path, relevant news with links.
+
+## Step 3: Diagnostician – the health check (in code)
+
+*Phase 1, in parallel with Steps 2 and 2b.*
+
+If `scripts/calc.py` sits beside this file, use it for the tax, net-income, score, projection and loan calculations (`python3 scripts/calc.py --selftest` checks it). Otherwise write the code yourself from the rules below.
 
 **Net income.** Use the net figure the user gave. Only if it is missing, estimate it for an employee:
 
@@ -128,9 +173,13 @@ Employee social contributions on gross: pension 9.3% and unemployment 1.3% up to
 
 Interpolate between the anchors. Under 50 = foundations first; 50–75 = building; over 75 = optimising.
 
-## Step 4: Strategies
+**Report:** the ratios, the score with points per area, two or three strengths and gaps, what is bleeding money (expensive debt, idle cash far above the emergency fund, unclaimed employer money), and every figure that is an estimate.
 
-Pick three to five strategies from the knowledge base that fit this profile. Cover at least three of: investing, tax, pension, debt, property, income, costs. Always include one tax or subsidy strategy. For each give: what to do, the product type with an example, the monthly euro amount taken from the surplus, the tax effect, the first step, and what would make it the wrong choice.
+## Step 4: Strategist – the playbook
+
+*Phase 2. Starts when all three Phase 1 reports are in.*
+
+Pick three to five strategies from the Research Analyst's shortlist that fit the Diagnostician's numbers and the Market Analyst's current figures. Include a spread of risk (at least one low-risk and one growth strategy) and of horizon (something for this year and something for ten years or more). The monthly amounts must add up to no more than the surplus. Cover at least three of: investing, tax, pension, debt, property, income, costs. Always include one tax or subsidy strategy. For each give: what to do, the product type with an example, the monthly euro amount taken from the surplus, the tax effect, the first step, and what would make it the wrong choice.
 
 **Default order for spare money (adjust and explain when you deviate)**
 1. Clear overdraft and credit-card debt.
@@ -143,18 +192,34 @@ Pick three to five strategies from the knowledge base that fit this profile. Cov
 8. High earners and self-employed: consider Rürup; property goals: build Eigenkapital in safe assets if the purchase is under about 5 years away.
 9. Extra mortgage repayments (Sondertilgung) versus investing: compare the mortgage rate with the expected after-tax return and the user's risk tolerance.
 
-## Step 5: Challenge the plan
+## Step 5: Risk Officer – try to break the plan
 
-Review your own strategies as a sceptic before writing them up.
+*Phase 2, after the Strategist. A separate agent where possible.*
+
+Review the strategies as a sceptic before they are written up. Score each from 1 to 10 for risk, give an expected real return range, and judge the fit for this person's capacity as well as their stated tolerance.
 - **Stress test:** equities fall 40% and the main income stops for 6 months at the same time. Does the emergency fund cover it without selling investments? (ALG I is 60% of a standardised net wage, 67% with a child, calculated only on salary up to the pension ceiling, so high earners replace less than 60% of their real net. It runs 6 to 12 months depending on contribution history: 12 months needs 24 months of contributions. From age 50 it can run 15 months, rising to 24 months from 58 with enough contribution years. The self-employed usually get nothing.)
 - **Sensitivity:** returns 2 points lower, spending 10% higher, savings stopped for 2 years.
 - **Concentration:** employer shares, a single property, one country, crypto above about 5–10% of invested assets.
 - **Lock-in:** how much is tied up until retirement (bAV, Rürup, Altersvorsorgedepot) versus accessible.
-- Give each strategy a verdict: RECOMMENDED, PROCEED WITH CAUTION, or NOT SUITABLE FOR THIS PROFILE, with one sentence of reason.
+- Give each strategy a verdict: RECOMMENDED, PROCEED WITH CAUTION, or NOT SUITABLE FOR THIS PROFILE, with one sentence of reason and the largest share of the surplus it should take.
+- Send a strategy back to be changed if it fails the stress test; do not just label it.
 
-## Step 6: Write the plan
+**Report:** the stress-test result in euros, the sensitivity table, a risk table with severity and mitigation, insurance gaps, and the verdict per strategy.
 
-Deliver it as a document the user can keep (a doc where the session offers one, otherwise a markdown file). Do not paste the whole plan into the chat; give a five-line summary and the three most important actions there.
+## Step 6: Planner – the plan
+
+*Phase 2, last. Works from all five reports.*
+
+Deliver the plan as a document the user can keep (a doc where the session offers one, otherwise a markdown file). Do not paste the whole plan into the chat; give a five-line summary and the three most important actions there.
+
+- If `templates/plan-template.md` exists, fill every placeholder in it. Otherwise follow the section list below.
+- Every strategy from Step 4 appears with its verdict from Step 5. Every action anywhere in the plan also appears in Section 9.
+- Projected figures in Section 1 come from the Section 3 calculation, never from a separate estimate.
+
+**Print-ready version with charts.** Four charts belong to the plan: a net-worth donut, the cash-flow waterfall, the health-score gauge and the three-scenario projection lines.
+- If `scripts/md_to_html.py` exists, save the plan as markdown and run `python3 scripts/md_to_html.py <plan.md>`. It writes an HTML file beside it that prints cleanly to PDF. Deliver both.
+- Otherwise, offer the charts and build them yourself if the user wants a print version.
+- For the script to draw the charts, keep these table shapes: net worth as `Category | Value (EUR) | Notes` with debts labelled `Less: …`; cash flow as `Item | Monthly | Annual` with rows for income, taxes and social contributions, living expenses and available surplus; the score as a code block containing `NN/100` and a bar such as `[=======---]`; projections as `Year | Age | Conservative | Base case | Optimistic`. Write amounts as `€12,345`.
 
 Use tables for numbers, state every assumption, show amounts in euros and mark estimates. Sections:
 
@@ -173,7 +238,9 @@ Use tables for numbers, state every assumption, show amounts in euros and mark e
 
 End with a "Sources" list of the pages used in Step 2 and a "Your profile" block listing the interview answers so the plan can be rerun later.
 
-## Knowledge base (checked 11 November 2026)
+## Core reference (checked 11 November 2026)
+
+The condensed knowledge base. Where a `knowledge/` folder sits beside this file, those files go deeper on each topic and the Research Analyst reads them as well.
 
 ### Income tax ⟳
 - Tariff 2026: tax-free up to the Grundfreibetrag of €12,348 (€24,696 jointly); 42% from €69,879; 45% from €277,826. Formula in Step 3.
