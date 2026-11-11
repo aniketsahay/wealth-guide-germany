@@ -109,7 +109,7 @@ Needs: web search (to refresh figures) and Python 3.8+ (for the calculations and
 
 ### Claude app
 
-Add the contents of `SKILL.md` as a skill in your Claude account, then say **"wealth guide"**, **"Finanzplan"** or **"Vermögensplan"** in a chat. The single file is self-contained; the deeper knowledge files, workflows and export script are used when the whole folder is available.
+Add the contents of `SKILL.md` as a skill in your Claude account, then say **"wealth guide"**, **"Finanzplan"** or **"Vermögensplan"** in a chat. The single file is self-contained for the plan itself. For the charts, the calculator and the statement analyser it fetches this repository at the start of a run; if that is not possible it draws the charts itself.
 
 ### Calculator on its own
 
